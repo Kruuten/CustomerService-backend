@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+
 @Entity
 @Table(name = "customer")
 public class Customer {
@@ -48,6 +49,15 @@ public class Customer {
     private String sex;
 
     public Customer() {
+    }
+
+    public Customer(Address address, String firstName, String lastName, String middleName, String sex) {
+        this.actualAddress = address;
+        this.registredAddress = address;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.sex = sex;
     }
 
     public Customer(Address registredAddress, Address actualAddress,
@@ -115,4 +125,5 @@ public class Customer {
     public void setSex(String sex) {
         this.sex = sex;
     }
+
 }
