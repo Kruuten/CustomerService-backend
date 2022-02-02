@@ -73,7 +73,6 @@ public class CustomerService {
             addressRep.deleteById(actAddressId);
         }
 
-
         return customer;
     }
 
