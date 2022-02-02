@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -32,51 +33,68 @@ public class CustomerService {
         Address actAddress = customer.getActualAddress();
         regAddress.setCreated(LocalDateTime.now());
         actAddress.setCreated(LocalDateTime.now());
-        regAddress.setModified(LocalDateTime.now());
-        actAddress.setModified(LocalDateTime.now());
-        Customer newCustomer;
 
-        Address checkRegAddress = searchAddressInDB(regAddress);
-        if (checkRegAddress != null){
-            regAddress = checkRegAddress;
-            regAddress.setModified(LocalDateTime.now());
-        }
-
-        Address checkActAddress = searchAddressInDB(actAddress);
-        if (checkActAddress != null){
-            actAddress = checkActAddress;
-            actAddress.setModified(LocalDateTime.now());
-        }
-
+        regAddress = searchAddressInDB(regAddress);
+        actAddress = searchAddressInDB(actAddress);
 
         if (regAddress.equals(actAddress)){
-            newCustomer = customerRep.save(new Customer(
+            return customerRep.save(new Customer(
                     regAddress,
                     customer.getFirstName(),
                     customer.getLastName(),
                     customer.getMiddleName(),
                     customer.getSex()));
-        } else {
-            newCustomer = customerRep.save(new Customer(
+        }
+        return customerRep.save(new Customer(
                     regAddress,
                     actAddress,
                     customer.getFirstName(),
                     customer.getLastName(),
                     customer.getMiddleName(),
-                    customer.getSex()
-            ));
-        }
+                    customer.getSex()));
 
-        return newCustomer;
     }
 
+    public Customer changeAddress(int id, Address address){
+        Optional<Customer> optional = customerRep.findById(id);
+        Customer customer;
+        if (optional.isPresent()){
+            customer = optional.get();
+        } else return null;
+
+        int actAddressId = customer.getActualAddress().getId();
+
+        Address changedAddress = searchAddressInDB(address);
+        customer.setActualAddress(changedAddress);
+        customerRep.save(customer);
+
+        Address checkAddress = addressRep.findById(actAddressId).get();
+        if (checkAddress.getActualCustomers().size() == 0 && checkAddress.getRegistredCustomers().size() ==0){
+            addressRep.deleteById(actAddressId);
+        }
+
+
+        return customer;
+    }
+
+
+
     private Address searchAddressInDB(Address address){
-        return addressRep.findByCountryAndRegionAndCityAndStreetAndHouseAndFlat(
+        Address checkAddress = addressRep.findByCountryAndRegionAndCityAndStreetAndHouseAndFlat(
                 address.getCountry(),
                 address.getRegion(),
                 address.getCity(),
                 address.getStreet(),
                 address.getHouse(),
                 address.getFlat());
+
+        if (checkAddress != null) {
+            checkAddress.setModified(LocalDateTime.now());
+            return checkAddress;
+        }
+
+            address.setModified(LocalDateTime.now());
+            return address;
+
     }
 }
