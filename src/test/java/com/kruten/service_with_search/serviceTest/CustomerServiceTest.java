@@ -73,6 +73,7 @@ public class CustomerServiceTest {
     @Test
     public void getAllCustomers() throws Exception{
         List<Customer> expected = Arrays.asList(customer1, customer2);
+        //Error
         List<Customer> result = customerService.getAllCustomers();
         Assertions.assertThat(result).isEqualTo(expected);
     }
