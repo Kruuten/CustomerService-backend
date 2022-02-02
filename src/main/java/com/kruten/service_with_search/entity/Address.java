@@ -152,6 +152,22 @@ public class Address {
         this.modified = modified;
     }
 
+    public List<Customer> getRegistredCustomers() {
+        return registredCustomers;
+    }
+
+    public void setRegistredCustomers(List<Customer> registredCustomers) {
+        this.registredCustomers = registredCustomers;
+    }
+
+    public List<Customer> getActualCustomers() {
+        return actualCustomers;
+    }
+
+    public void setActualCustomers(List<Customer> actualCustomers) {
+        this.actualCustomers = actualCustomers;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
