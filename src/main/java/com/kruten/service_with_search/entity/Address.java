@@ -180,4 +180,5 @@ public class Address {
     public int hashCode() {
         return Objects.hash(country, region, city, street, house, flat);
     }
+
 }
