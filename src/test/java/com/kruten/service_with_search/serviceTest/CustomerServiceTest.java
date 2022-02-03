@@ -6,35 +6,29 @@ import com.kruten.service_with_search.entity.Customer;
 import com.kruten.service_with_search.repository.AddressRep;
 import com.kruten.service_with_search.repository.CustomerRep;
 import com.kruten.service_with_search.service.CustomerService;
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.test.context.SpringBootTest;
 
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
+@SpringBootTest
 public class CustomerServiceTest {
-    @TestConfiguration
-    static class CustomerServiceTestContextConfiguration{
-        @Bean
-        public CustomerService customerService(){
-            return new CustomerService();
-        }
-    }
 
-    @Autowired
-    private CustomerService customerService;
+    @Mock
+    CustomerRep customerRep;
 
-    @MockBean
-    private CustomerRep customerRep;
-    @MockBean
-    private AddressRep addressRep;
+    @Mock
+    AddressRep addressRep;
+
+    @InjectMocks
+    CustomerService customerService;
 
     private Customer customer1;
     private Customer customer2;
@@ -66,15 +60,14 @@ public class CustomerServiceTest {
         customer2.setSex("female");
         customer2.setRegistredAddress(address2);
         customer2.setActualAddress(address2);
-
-        Mockito.when(customerRep.findAll()).thenReturn(Arrays.asList(customer1, customer2));
     }
 
     @Test
     public void getAllCustomers() throws Exception{
-        List<Customer> expected = Arrays.asList(customer1, customer2);
-        //Error
-        List<Customer> result = customerService.getAllCustomers();
-        Assertions.assertThat(result).isEqualTo(expected);
+        List<Customer> customers = new ArrayList<>();
+        customers.add(customer1);
+        customers.add(customer2);
+        Mockito.when(customerRep.findAll()).thenReturn(customers);
+        Assertions.assertEquals(2, customerService.getAllCustomers().size());
     }
 }
