@@ -11,6 +11,7 @@ class ListCustomerComponent extends Component {
 
         }
         this.addCustomer = this.addCustomer.bind(this);
+        this.editCustomerAddress = this.editCustomerAddress.bind(this);
     }
 
     componentDidMount(){
@@ -22,6 +23,10 @@ class ListCustomerComponent extends Component {
 
     addCustomer(){
         this.props.history.push('/add-customer');
+    }
+
+    editCustomerAddress(id, actualAddress){
+        this.props.history.push(`/update-address/${id}`)
     }
 
     render() {
@@ -70,6 +75,10 @@ class ListCustomerComponent extends Component {
                                          + 'Street: ' + customer.actualAddress.street + '\n' 
                                          + 'House: ' + customer.actualAddress.house + '\n' 
                                          + 'Flat ' + customer.actualAddress.flat + '\n'}
+                                        </td>
+                                        <td>
+                                            <button onClick = {() => this.editCustomerAddress(customer.id)}
+                                             className = 'btn btn-info'>Change Address</button>
                                         </td>
                                     </tr>
                                 )
