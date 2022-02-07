@@ -21,7 +21,7 @@ class ListCustomerComponent extends Component {
     }
 
     addCustomer(){
-        this.customer.history.push('/add-customer');
+        this.props.history.push('/add-customer');
     }
 
     render() {
@@ -29,7 +29,7 @@ class ListCustomerComponent extends Component {
             <div>
               <h2 className='text-center'>Customer List</h2> 
               <div className='row'>
-                  <button className='btn-primary' onClick={() => this.addCustomer()}>Add</button>
+                  <button className='btn-primary' onClick={this.addCustomer}>Add New Customer</button>
               </div>
               <div className='row'>
                     <table className='table table-striped table-bordered'>

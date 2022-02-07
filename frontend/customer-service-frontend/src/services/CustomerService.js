@@ -1,28 +1,15 @@
 import axios from 'axios';
 
-const CUSTOMERS_API_URL = "http://localhost:8080/customers";
-// const CUSTOMERS_SEARCH_URL = "http://localhost:8080/customers/search";
+const CUSTOMER_API_BASE_URL ="http://localhost:8080/customers";
 
-class CustomerService {
-    
-    getCustomers() {
-        return axios.get(CUSTOMERS_API_URL);
+class CustomerService{
+
+    getCustomers(){
+        return axios.get(CUSTOMER_API_BASE_URL);
     }
 
-    createCustomer(customer) {
-        return axios.post(CUSTOMERS_API_URL, customer);
-    }
-
-    getCustomerById(customerId) {
-        return axios.get(CUSTOMERS_API_URL + '/' + customerId);
-    }
-
-    updateCustomerAddress(customerId, address) {
-        return axios.put(CUSTOMERS_API_URL + '/' + customerId, address);
-    }
-
-    findCustomerByName(name) {
-        return axios.get(CUSTOMERS_API_URL + '/search?name=' + name);
+    createCustomer(customer){
+        return axios.post(CUSTOMER_API_BASE_URL, customer);
     }
 }
 
