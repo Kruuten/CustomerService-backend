@@ -24,6 +24,15 @@ public class CustomerService {
         return  customerRep.findAll();
     }
 
+    public Customer getCustomerById(int id){
+        Optional<Customer> optional = customerRep.findById(id);
+        Customer customer = null;
+        if (optional.isPresent()) {
+            customer = optional.get();
+        }
+        return customer;
+    }
+
     public List<Customer> findByNameAndLastName(String firstName, String lastName){
         return customerRep.findByFirstNameAndLastName(firstName, lastName);
     }

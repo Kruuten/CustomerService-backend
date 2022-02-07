@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
@@ -19,6 +20,11 @@ public class CustomServiceController {
     @GetMapping("/customers")
     public List<Customer> getAllCustomers(){
         return customerService.getAllCustomers();
+    }
+
+    @GetMapping("/customers/{id}")
+    public Customer getCustomerByID(@PathVariable int id){
+        return customerService.getCustomerById(id);
     }
 
     @GetMapping("/customers/search")
