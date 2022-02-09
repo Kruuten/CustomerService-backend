@@ -7,6 +7,7 @@ import HeaderComponent from './components/HeaderComponent';
 import FooterComponent from './components/FooterComponent';
 import CreateCustomerComponent from './components/CreateCustomerComponent';
 import UpdateCustomerAddressComponent from './components/UpdateCustomerAddressComponent';
+import ViewInfoComponent from './components/ViewInfoComponent';
 
 function App() {
   
@@ -21,6 +22,7 @@ function App() {
                 <Route path = '/customers'  component = {ListCustomerComponent}></Route>
                 <Route path = '/add-customer'  component = {CreateCustomerComponent}></Route>
                 <Route path = '/update-address/:id'  component = {UpdateCustomerAddressComponent}></Route>
+                <Route path = '/showinfo/:id'  component = {ViewInfoComponent}></Route>
               </Switch>
             </div>
         </div>

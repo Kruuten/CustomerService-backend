@@ -27,8 +27,12 @@ class ListCustomerComponent extends Component {
         this.props.history.push('/add-customer');
     }
 
-    editCustomerAddress(id, actualAddress){
+    editCustomerAddress(id){
         this.props.history.push(`/update-address/${id}`)
+    }
+
+    showInfo(id){
+        this.props.history.push(`/showinfo/${id}`)
     }
 
     handleChange = event => {
@@ -37,13 +41,6 @@ class ListCustomerComponent extends Component {
 
     render() {
         const {filter} = this.state;
-        // const lowercaseFilter = filter.toLowerCase;
-        // const filtered = this.state.customers.filter((item) => 
-        //     item.firstName.toLowerCase().includes(filter.toLowerCase()) ||
-        //     item.lastName.toLowerCase().includes(filter.toLowerCase()) ||
-        //     item.middleName.toLowerCase().includes(filter.toLowerCase()) 
-        // );
-
         const filtered = this.state.customers.filter((item) => {
             const  concatenatedNames = `${item.firstName} ${item.lastName} ${item.middleName}`;
       
@@ -52,15 +49,14 @@ class ListCustomerComponent extends Component {
                   item.middleName.toLowerCase().includes(filter.toLowerCase()) ||
             concatenatedNames.toLowerCase().includes(filter.toLowerCase())
           });
-          
-        console.log(this.state);
+
         return (
             <div>
                 <br></br>
                 <h2 className='text-center'>Customer List</h2> 
                 <div className='input-group'>
                 <button className='btn-primary' onClick={this.addCustomer}>Add New Customer</button>
-                    <input type='text' className='form-control' placeholder='Customer first and last names'
+                    <input type='text' className='form-control' placeholder='Customer filter'
                      value={filter} onChange={this.handleChange}/>
                 </div>
             
@@ -107,6 +103,10 @@ class ListCustomerComponent extends Component {
                                         <td>
                                             <button onClick = {() => this.editCustomerAddress(customer.id)}
                                              className = 'btn btn-info'>Change Address</button>
+                                             <br></br>
+                                             <br></br>
+                                             <button onClick = {() => this.showInfo(customer.id)}
+                                             className = 'btn btn-info'>View Info</button>
                                         </td>
                                     </tr>
                                 )
