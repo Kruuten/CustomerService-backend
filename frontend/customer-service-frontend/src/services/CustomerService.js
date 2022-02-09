@@ -15,6 +15,10 @@ class CustomerService{
     getCustomerById(customerId){
         return axios.get(CUSTOMER_API_BASE_URL + '/' + customerId);
     }
+
+    updateCustomerAddress(actualAddress, customerId){
+        return axios.put(CUSTOMER_API_BASE_URL + '/' + customerId, actualAddress);
+    }
 }
 
 export default new CustomerService()

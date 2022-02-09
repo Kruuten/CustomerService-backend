@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useRef, useState } from 'react';
 import CustomerService from '../services/CustomerService';
 
 
@@ -7,11 +7,13 @@ class ListCustomerComponent extends Component {
         super(props)
 
         this.state ={
-            customers: []
+            customers: [],
+            filter:'',
 
         }
         this.addCustomer = this.addCustomer.bind(this);
         this.editCustomerAddress = this.editCustomerAddress.bind(this);
+
     }
 
     componentDidMount(){
@@ -29,13 +31,39 @@ class ListCustomerComponent extends Component {
         this.props.history.push(`/update-address/${id}`)
     }
 
+    handleChange = event => {
+        this.setState({ filter: event.target.value });
+      };
+
     render() {
+        const {filter} = this.state;
+        // const lowercaseFilter = filter.toLowerCase;
+        // const filtered = this.state.customers.filter((item) => 
+        //     item.firstName.toLowerCase().includes(filter.toLowerCase()) ||
+        //     item.lastName.toLowerCase().includes(filter.toLowerCase()) ||
+        //     item.middleName.toLowerCase().includes(filter.toLowerCase()) 
+        // );
+
+        const filtered = this.state.customers.filter((item) => {
+            const  concatenatedNames = `${item.firstName} ${item.lastName} ${item.middleName}`;
+      
+            return item.firstName.toLowerCase().includes(filter.toLowerCase()) ||
+                  item.lastName.toLowerCase().includes(filter.toLowerCase()) ||
+                  item.middleName.toLowerCase().includes(filter.toLowerCase()) ||
+            concatenatedNames.toLowerCase().includes(filter.toLowerCase())
+          });
+          
+        console.log(this.state);
         return (
             <div>
-              <h2 className='text-center'>Customer List</h2> 
-              <div className='row'>
-                  <button className='btn-primary' onClick={this.addCustomer}>Add New Customer</button>
-              </div>
+                <br></br>
+                <h2 className='text-center'>Customer List</h2> 
+                <div className='input-group'>
+                <button className='btn-primary' onClick={this.addCustomer}>Add New Customer</button>
+                    <input type='text' className='form-control' placeholder='Customer first and last names'
+                     value={filter} onChange={this.handleChange}/>
+                </div>
+            
               <div className='row'>
                     <table className='table table-striped table-bordered'>
 
@@ -53,7 +81,7 @@ class ListCustomerComponent extends Component {
 
                         <tbody>
                             {
-                                this.state.customers.map(
+                               filtered.map(
                                     customer =>
                                     <tr key = {customer.id}>
                                         <td>{customer.firstName}</td>
@@ -87,6 +115,7 @@ class ListCustomerComponent extends Component {
 
                     </table>
               </div> 
+              <br></br>
             </div>
         );
     }
