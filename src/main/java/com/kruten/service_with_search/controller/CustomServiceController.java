@@ -33,12 +33,12 @@ public class CustomServiceController {
     }
 
     @PostMapping("/customers")
-    public Customer addNewCustomer(@RequestBody @Valid Customer customer){
+    public Customer addNewCustomer(@RequestBody @Valid Customer customer) throws Exception {
         return customerService.createNewCustomer(customer);
     }
 
     @PutMapping("/customers/{id}")
-    public Customer changeAddress(@RequestParam int id, @RequestBody @Valid Address address){
+    public Customer changeAddress(@PathVariable int id, @RequestBody @Valid Address address){
         return customerService.changeAddress(id, address);
     }
 

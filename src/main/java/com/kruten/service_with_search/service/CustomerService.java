@@ -37,7 +37,7 @@ public class CustomerService {
         return customerRep.findByFirstNameAndLastName(firstName, lastName);
     }
 
-    public Customer createNewCustomer(Customer customer){
+    public Customer createNewCustomer(Customer customer) throws Exception {
         Address regAddress = customer.getRegistredAddress();
         Address actAddress = customer.getActualAddress();
         regAddress.setCreated(LocalDateTime.now());
@@ -45,6 +45,18 @@ public class CustomerService {
 
         regAddress = searchAddressInDB(regAddress);
         actAddress = searchAddressInDB(actAddress);
+
+        Customer checkCustomer = customerRep.findByFirstNameAndLastNameAndMiddleNameAndSexAndRegistredAddressAndActualAddress(
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getMiddleName(),
+                customer.getSex(),
+                regAddress,
+                actAddress);
+
+        if (checkCustomer != null){
+            throw new Exception("Customer already exist");
+        }
 
         if (regAddress.equals(actAddress)){
             return customerRep.save(new Customer(
@@ -61,7 +73,6 @@ public class CustomerService {
                     customer.getLastName(),
                     customer.getMiddleName(),
                     customer.getSex()));
-
     }
 
     public Customer changeAddress(int id, Address address){
