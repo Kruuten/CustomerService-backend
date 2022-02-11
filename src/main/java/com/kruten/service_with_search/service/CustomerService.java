@@ -6,6 +6,7 @@ import com.kruten.service_with_search.repository.AddressRep;
 import com.kruten.service_with_search.repository.CustomerRep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,10 +21,12 @@ public class CustomerService {
     @Autowired
     private CustomerRep customerRep;
 
+    @Transactional
     public List<Customer> getAllCustomers(){
         return  customerRep.findAll();
     }
 
+    @Transactional
     public Customer getCustomerById(int id){
         Optional<Customer> optional = customerRep.findById(id);
         Customer customer = null;
@@ -33,10 +36,12 @@ public class CustomerService {
         return customer;
     }
 
+    @Transactional
     public List<Customer> findByNameAndLastName(String firstName, String lastName){
         return customerRep.findByFirstNameAndLastName(firstName, lastName);
     }
 
+    @Transactional
     public Customer createNewCustomer(Customer customer) throws Exception {
         Address regAddress = customer.getRegistredAddress();
         Address actAddress = customer.getActualAddress();
@@ -46,13 +51,13 @@ public class CustomerService {
         regAddress = searchAddressInDB(regAddress);
         actAddress = searchAddressInDB(actAddress);
 
-        Customer checkCustomer = customerRep.findByFirstNameAndLastNameAndMiddleNameAndSexAndRegistredAddressAndActualAddress(
-                customer.getFirstName(),
-                customer.getLastName(),
-                customer.getMiddleName(),
-                customer.getSex(),
-                regAddress,
-                actAddress);
+         Customer checkCustomer = customerRep.findByFirstNameAndLastNameAndMiddleNameAndSexAndRegistredAddress_IdAndActualAddress_Id(
+                 customer.getFirstName(),
+                 customer.getLastName(),
+                 customer.getMiddleName(),
+                 customer.getSex(),
+                 regAddress.getId(),
+                 actAddress.getId());
 
         if (checkCustomer != null){
             throw new Exception("Customer already exist");
@@ -75,6 +80,7 @@ public class CustomerService {
                     customer.getSex()));
     }
 
+    @Transactional
     public Customer changeAddress(int id, Address address){
         Optional<Customer> optional = customerRep.findById(id);
         Customer customer;
@@ -85,6 +91,7 @@ public class CustomerService {
         int actAddressId = customer.getActualAddress().getId();
 
         Address changedAddress = searchAddressInDB(address);
+        changedAddress.setCreated(LocalDateTime.now());
         customer.setActualAddress(changedAddress);
         customerRep.save(customer);
 
@@ -96,9 +103,8 @@ public class CustomerService {
         return customer;
     }
 
-
-
-    private Address searchAddressInDB(Address address){
+    @Transactional
+    Address searchAddressInDB(Address address){
         Address checkAddress = addressRep.findByCountryAndRegionAndCityAndStreetAndHouseAndFlat(
                 address.getCountry(),
                 address.getRegion(),
@@ -111,7 +117,7 @@ public class CustomerService {
             checkAddress.setModified(LocalDateTime.now());
             return checkAddress;
         }
-
+            address.setCreated(LocalDateTime.now());
             address.setModified(LocalDateTime.now());
             return address;
 
