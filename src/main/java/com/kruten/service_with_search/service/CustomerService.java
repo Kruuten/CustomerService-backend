@@ -103,7 +103,6 @@ public class CustomerService {
         return customer;
     }
 
-    @Transactional
     Address searchAddressInDB(Address address){
         Address checkAddress = addressRep.findByCountryAndRegionAndCityAndStreetAndHouseAndFlat(
                 address.getCountry(),
