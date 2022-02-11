@@ -10,10 +10,10 @@ import java.util.List;
 @Repository
 public interface CustomerRep extends JpaRepository<Customer, Integer> {
     public List<Customer> findByFirstNameAndLastName(String firstName, String lastName);
-    Customer findByFirstNameAndLastNameAndMiddleNameAndSexAndRegistredAddressAndActualAddress(String firstName,
-                                                                                              String lastName,
-                                                                                              String middleName,
-                                                                                              String sex,
-                                                                                              Address registredAddress,
-                                                                                              Address actualAddress);
+    Customer findByFirstNameAndLastNameAndMiddleNameAndSexAndRegistredAddress_IdAndActualAddress_Id(String firstName,
+                                                                                                    String lastName,
+                                                                                                    String middleName,
+                                                                                                    String sex,
+                                                                                                    int reg_Id,
+                                                                                                    int act_id);
 }
