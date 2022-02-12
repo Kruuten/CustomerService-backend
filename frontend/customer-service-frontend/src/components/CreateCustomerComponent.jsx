@@ -22,6 +22,8 @@ class CreateCustomerComponent extends Component {
                 actualStreet: '',
                 actualHouse: '',
                 actualFlat: '',
+                onError: false,
+                errorBody: [],
         }
 
         this.changeFirstNameHandler = this.changeFirstNameHandler.bind(this);
@@ -74,6 +76,18 @@ class CreateCustomerComponent extends Component {
         CustomerService.createCustomer(customer).then(res => {
             this.props.history.push('/customers')
         })
+        .catch(e => {this.errorHandle(e)})
+    }
+
+    errorHandle(e){
+        this.setState({
+            onError: true
+        })
+        if (e.response && e.response.data){
+            this.setState({
+                errorBody: e.response.data.violations
+            })
+        }
     }
 
     changeFirstNameHandler = (event) => {

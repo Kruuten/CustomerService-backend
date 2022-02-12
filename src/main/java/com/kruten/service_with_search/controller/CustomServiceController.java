@@ -4,42 +4,67 @@ import com.kruten.service_with_search.entity.Address;
 import com.kruten.service_with_search.entity.Customer;
 import com.kruten.service_with_search.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
 @RequestMapping("/")
 public class CustomServiceController {
+
     @Autowired
     private CustomerService customerService;
 
     @GetMapping("/customers")
-    public List<Customer> getAllCustomers(){
-        return customerService.getAllCustomers();
+    public ResponseEntity<List<Customer>> getAllCustomers(){
+        try {
+            return new ResponseEntity<>(customerService.getAllCustomers(), HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/customers/{id}")
-    public Customer getCustomerByID(@PathVariable int id){
-        return customerService.getCustomerById(id);
+    public ResponseEntity<Customer> getCustomerByID(@PathVariable int id){
+        try {
+            return new ResponseEntity<>(customerService.getCustomerById(id), HttpStatus.OK);
+        } catch (Exception e){
+             e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/customers/search")
-    public List<Customer> findByNameAndLastName(@RequestParam String name, @RequestParam String lastName){
-        return customerService.findByNameAndLastName(name, lastName);
+    public ResponseEntity<List<Customer>> findByNameAndLastName(@RequestParam String name, @RequestParam String lastName){
+        try {
+            return new ResponseEntity<>(customerService.findByNameAndLastName(name, lastName), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/customers")
-    public Customer addNewCustomer(@RequestBody @Valid Customer customer) throws Exception {
-        return customerService.createNewCustomer(customer);
+    public ResponseEntity<Customer> addNewCustomer(@Valid @RequestBody Customer customer){
+        try {
+            return new ResponseEntity<>(customerService.createNewCustomer(customer), HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/customers/{id}")
-    public Customer changeAddress(@PathVariable int id, @RequestBody @Valid Address address){
-        return customerService.changeAddress(id, address);
+    public ResponseEntity<Customer> changeAddress(@PathVariable int id, @Valid @RequestBody  Address address){
+        try {
+            return new ResponseEntity<>(customerService.changeAddress(id, address), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-
 }

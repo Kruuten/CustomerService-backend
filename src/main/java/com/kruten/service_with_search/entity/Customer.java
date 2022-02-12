@@ -1,10 +1,7 @@
 package com.kruten.service_with_search.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 
 @Entity
@@ -27,22 +24,21 @@ public class Customer {
     @JoinColumn(name = "actual_address_id")
     private Address actualAddress;
 
-    @NotBlank
     @Size(max = 255)
     @Column(name = "first_name")
+    @NotBlank
     private String firstName;
 
-    @NotBlank
     @Size(max = 255)
     @Column(name = "last_name")
+    @NotBlank
     private String lastName;
 
-    @NotBlank
     @Size(max = 255)
     @Column(name = "middle_name")
+    @NotBlank
     private String middleName;
 
-    @NotBlank
     @Size(max = 6)
     @Pattern(regexp = "^(?:male|female)$")
     @Column(name = "sex")

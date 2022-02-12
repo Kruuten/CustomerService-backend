@@ -103,7 +103,8 @@ public class CustomerService {
         return customer;
     }
 
-    Address searchAddressInDB(Address address){
+
+    private Address searchAddressInDB(Address address){
         Address checkAddress = addressRep.findByCountryAndRegionAndCityAndStreetAndHouseAndFlat(
                 address.getCountry(),
                 address.getRegion(),

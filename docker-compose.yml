@@ -4,10 +4,8 @@ services:
   spring:
     image: 'customer-service-backend:latest'
     build:
-      context: .
+      context:  .
     container_name: backend
-    ports:
-      - 8080:8080
     depends_on:
       - postgres
     environment:

@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,34 +18,34 @@ public class Address {
     @Column(name = "id")
     private int id;
 
-    @NotBlank
     @Size(max = 255)
     @Column(name = "country")
+    @NotBlank
     private String country;
 
-    @NotBlank
     @Size(max = 255)
     @Column(name = "region")
+    @NotBlank
     private String region;
 
-    @NotBlank
     @Size(max = 255)
     @Column(name = "city")
+    @NotBlank
     private String city;
 
-    @NotBlank
     @Size(max = 255)
     @Column(name = "street")
+    @NotBlank
     private String street;
 
-    @NotBlank
     @Size(max = 255)
     @Column(name = "house")
+    @NotBlank
     private String house;
 
-    @NotBlank
     @Size(max = 255)
     @Column(name = "flat")
+    @NotBlank
     private String flat;
 
     @Column(name = "created")
@@ -56,12 +55,12 @@ public class Address {
     private LocalDateTime modified;
 
     @JsonIgnore
-    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE},
+    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE},
     mappedBy = "registredAddress")
     private List<Customer> registredCustomers;
 
     @JsonIgnore
-    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE,CascadeType.MERGE},
+    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE},
             mappedBy = "actualAddress")
     private List<Customer> actualCustomers;
 
