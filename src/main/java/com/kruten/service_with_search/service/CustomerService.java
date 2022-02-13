@@ -90,8 +90,10 @@ public class CustomerService {
 
         int actAddressId = customer.getActualAddress().getId();
 
-        Address changedAddress = searchAddressInDB(address);
+        Address changedAddress = new Address();
         changedAddress.setCreated(LocalDateTime.now());
+        changedAddress = searchAddressInDB(address);
+
         customer.setActualAddress(changedAddress);
         customerRep.save(customer);
 
@@ -120,6 +122,5 @@ public class CustomerService {
             address.setCreated(LocalDateTime.now());
             address.setModified(LocalDateTime.now());
             return address;
-
-    }
+        }
 }
