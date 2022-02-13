@@ -62,4 +62,12 @@
   width: 50px;
 }
 
+.checkform{
+  display: flex;
+}
+
+.form-chek-label{
+  margin-right: 15px;
+}
+
 

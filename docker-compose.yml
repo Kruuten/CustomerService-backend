@@ -2,10 +2,12 @@ version: '3.8'
 
 services:
   spring:
-    image: 'customer-service-backend:latest'
+    image: 'customer-service-backend'
     build:
       context:  .
     container_name: backend
+    ports:
+      - 8080:8080
     depends_on:
       - postgres
     environment:
@@ -23,7 +25,7 @@ services:
       - POSTGRES_PASSWORD=Rfhfvtkmyfz:0grf
 
   react-service:
-    image: 'customer-service-frontend:latest'
+    image: 'customer-service-frontend'
     container_name: frontend
     build:
       context: ./frontend/customer-service-frontend
