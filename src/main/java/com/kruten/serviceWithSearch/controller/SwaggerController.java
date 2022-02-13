@@ -1,4 +1,4 @@
-package com.kruten.service_with_search.controller;
+package com.kruten.serviceWithSearch.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

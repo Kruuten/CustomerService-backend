@@ -1,4 +1,4 @@
-package com.kruten.service_with_search.configuration;
+package com.kruten.serviceWithSearch.configuration;
 
 
 import io.swagger.v3.oas.models.OpenAPI;

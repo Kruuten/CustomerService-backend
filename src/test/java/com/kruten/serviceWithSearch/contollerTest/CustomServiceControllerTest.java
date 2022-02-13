@@ -1,13 +1,11 @@
-package com.kruten.service_with_search.contollerTest;
+package com.kruten.serviceWithSearch.contollerTest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kruten.service_with_search.entity.Address;
-import com.kruten.service_with_search.entity.Customer;
-import com.kruten.service_with_search.service.CustomerService;
+import com.kruten.serviceWithSearch.entity.Address;
+import com.kruten.serviceWithSearch.entity.Customer;
+import com.kruten.serviceWithSearch.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

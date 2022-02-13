@@ -1,6 +1,6 @@
-package com.kruten.service_with_search.repository;
+package com.kruten.serviceWithSearch.repository;
 
-import com.kruten.service_with_search.entity.Address;
+import com.kruten.serviceWithSearch.entity.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

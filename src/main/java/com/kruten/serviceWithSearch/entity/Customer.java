@@ -1,4 +1,4 @@
-package com.kruten.service_with_search.entity;
+package com.kruten.serviceWithSearch.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -13,14 +13,12 @@ public class Customer {
     private int id;
 
     @NotNull
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST,
-            CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "registred_address_id")
     private Address registredAddress;
 
     @NotNull
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST,
-            CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "actual_address_id")
     private Address actualAddress;
 

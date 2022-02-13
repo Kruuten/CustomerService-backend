@@ -1,4 +1,4 @@
-package com.kruten.service_with_search.entity;
+package com.kruten.serviceWithSearch.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -55,12 +55,12 @@ public class Address {
     private LocalDateTime modified;
 
     @JsonIgnore
-    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE},
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH},
     mappedBy = "registredAddress")
     private List<Customer> registredCustomers;
 
     @JsonIgnore
-    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE},
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH},
             mappedBy = "actualAddress")
     private List<Customer> actualCustomers;
 
@@ -173,12 +173,11 @@ public class Address {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return id == address.id && Objects.equals(country, address.country) && Objects.equals(region, address.region) && Objects.equals(city, address.city) && Objects.equals(street, address.street) && Objects.equals(house, address.house) && Objects.equals(flat, address.flat);
+        return Objects.equals(country, address.country) && Objects.equals(region, address.region) && Objects.equals(city, address.city) && Objects.equals(street, address.street) && Objects.equals(house, address.house) && Objects.equals(flat, address.flat);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(country, region, city, street, house, flat);
     }
-
 }
