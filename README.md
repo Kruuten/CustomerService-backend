@@ -2,7 +2,7 @@
 Spring boot App with frontend on React, PostgreSQL, Docker, Swagger
 
 ### Instrucion to install: ###
-#### 1. Download project. From command line: ####
+#### 1. Clone project. From command line: ####
 > $ git clone --recursive https://github.com/Kruuten/CustomerService.git
 
 #### 2. Enter project directory: ####
