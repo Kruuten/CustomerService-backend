@@ -106,7 +106,6 @@ class UpdateCustomerAddressComponent extends Component {
     updateCustomer = (e) => {
         e.preventDefault();
         let actualAddress = {
-                        id : this.state.id,
                         country: this.state.fields.actualCountry,
                         region: this.state.fields.actualRegion,
                         city: this.state.fields.actualCity,
