@@ -24,6 +24,7 @@ services:
       - POSTGRES_USER=anton
       - POSTGRES_PASSWORD=Rfhfvtkmyfz:0grf
 
+
   react-service:
     image: 'customer-service-frontend'
     container_name: frontend
