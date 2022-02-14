@@ -5,10 +5,7 @@ Spring boot App with frontend on React, PostgreSQL, Docker, Swagger
 #### 1. Clone project. From command line: ####
 > $ git clone --recursive https://github.com/Kruuten/CustomerService.git
 
-#### 2. Enter project directory: ####
-> $ cd download_folder/CustomerService
-
-#### 3. Build project: ####
+#### 2. Build project from project directory: ####
 
 On Linux/Mac:
 > $ ./gradlew build
@@ -16,10 +13,10 @@ On Linux/Mac:
 On Windows:
 > $ gradlew build
 
-#### 4. Deploy project with Docker (should be installed): ####
+#### 3. Deploy project with Docker (should be installed): ####
 > $ docker-compose up --build
 
-#### 5. Check app: ####
+#### 4. Check app: ####
 > $ Webview : http://localhost:3000/
 
 > $ Webview only CRUD methods: http://localhost:8080/swagger
