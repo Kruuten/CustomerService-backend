@@ -89,4 +89,8 @@ public class serviceTest {
         Assertions.assertEquals(customer1, customerService.getCustomerById(id));
     }
 
+    @Test
+    void createNewCustomerTest(){
+
+    }
 }
