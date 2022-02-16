@@ -1,9 +1,9 @@
-package com.kruten.serviceWithSearch.contollerTest;
+package com.kruten.backend.contollerTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kruten.serviceWithSearch.entity.Address;
-import com.kruten.serviceWithSearch.entity.Customer;
-import com.kruten.serviceWithSearch.service.CustomerService;
+import com.kruten.backend.entity.Address;
+import com.kruten.backend.entity.Customer;
+import com.kruten.backend.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

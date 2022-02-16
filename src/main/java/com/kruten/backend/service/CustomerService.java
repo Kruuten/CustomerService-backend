@@ -1,9 +1,9 @@
-package com.kruten.serviceWithSearch.service;
+package com.kruten.backend.service;
 
-import com.kruten.serviceWithSearch.entity.Address;
-import com.kruten.serviceWithSearch.entity.Customer;
-import com.kruten.serviceWithSearch.repository.AddressRep;
-import com.kruten.serviceWithSearch.repository.CustomerRep;
+import com.kruten.backend.entity.Address;
+import com.kruten.backend.entity.Customer;
+import com.kruten.backend.repository.AddressRep;
+import com.kruten.backend.repository.CustomerRep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

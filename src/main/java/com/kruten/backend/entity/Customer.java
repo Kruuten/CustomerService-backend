@@ -1,4 +1,4 @@
-package com.kruten.serviceWithSearch.entity;
+package com.kruten.backend.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;

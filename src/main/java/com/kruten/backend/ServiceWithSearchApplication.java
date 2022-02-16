@@ -1,4 +1,4 @@
-package com.kruten.serviceWithSearch;
+package com.kruten.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

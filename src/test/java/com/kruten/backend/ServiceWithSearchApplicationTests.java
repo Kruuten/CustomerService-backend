@@ -1,6 +1,6 @@
-package com.kruten.serviceWithSearch;
+package com.kruten.backend;
 
-import com.kruten.serviceWithSearch.contollerTest.CustomServiceControllerTest;
+import com.kruten.backend.contollerTest.CustomServiceControllerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

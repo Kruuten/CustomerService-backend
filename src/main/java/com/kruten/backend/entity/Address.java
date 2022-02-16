@@ -1,4 +1,4 @@
-package com.kruten.serviceWithSearch.entity;
+package com.kruten.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
