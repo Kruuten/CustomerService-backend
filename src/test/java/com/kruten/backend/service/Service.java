@@ -1,10 +1,9 @@
-package com.kruten.backend.Service;
+package com.kruten.backend.service;
 
 import com.kruten.backend.entity.Address;
 import com.kruten.backend.entity.Customer;
 import com.kruten.backend.repository.AddressRep;
 import com.kruten.backend.repository.CustomerRep;
-import com.kruten.backend.service.CustomerService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
