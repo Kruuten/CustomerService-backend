@@ -46,39 +46,30 @@ public class CustomerService {
     public Customer createNewCustomer(Customer customer) throws Exception {
         Address regAddress = customer.getRegistredAddress();
         Address actAddress = customer.getActualAddress();
-        regAddress.setCreated(LocalDateTime.now());
-        actAddress.setCreated(LocalDateTime.now());
 
-        regAddress = searchAddressInDB(regAddress);
-        actAddress = searchAddressInDB(actAddress);
+        Address commonAddress = searchAddressInDB(regAddress);
 
-         Customer checkCustomer = customerRep.findByFirstNameAndLastNameAndMiddleNameAndSexAndRegistredAddress_IdAndActualAddress_Id(
+        if (regAddress.equals(actAddress)){
+            customer.setRegistredAddress(searchAddressInDB(commonAddress));
+            customer.setActualAddress(searchAddressInDB(commonAddress));
+        } else {
+            customer.setRegistredAddress(searchAddressInDB(commonAddress));
+            customer.setActualAddress(searchAddressInDB(actAddress));
+        }
+
+        Customer checkCustomer = customerRep.findByFirstNameAndLastNameAndMiddleNameAndSexAndRegistredAddress_IdAndActualAddress_Id(
                  customer.getFirstName(),
                  customer.getLastName(),
                  customer.getMiddleName(),
                  customer.getSex(),
-                 regAddress.getId(),
-                 actAddress.getId());
+                 customer.getRegistredAddress().getId(),
+                 customer.getActualAddress().getId());
 
         if (checkCustomer != null){
             throw new CustomerAlreadyExistException("Customer already exist");
         }
 
-        if (regAddress.equals(actAddress)){
-            return customerRep.save(new Customer(
-                    regAddress,
-                    customer.getFirstName(),
-                    customer.getLastName(),
-                    customer.getMiddleName(),
-                    customer.getSex()));
-        }
-        return customerRep.save(new Customer(
-                    regAddress,
-                    actAddress,
-                    customer.getFirstName(),
-                    customer.getLastName(),
-                    customer.getMiddleName(),
-                    customer.getSex()));
+        return customerRep.save(customer);
     }
 
     @Transactional
@@ -122,6 +113,7 @@ public class CustomerService {
         }
             address.setCreated(LocalDateTime.now());
             address.setModified(LocalDateTime.now());
+            addressRep.save(address);
             return address;
         }
 }
