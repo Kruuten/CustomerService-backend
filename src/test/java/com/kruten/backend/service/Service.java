@@ -55,6 +55,8 @@ public class Service {
         customer1Address.setFlat("1");
         customer1Address.setCreated(LocalDateTime.now());
         customer1Address.setModified(LocalDateTime.now());
+        customer1Address.setActualCustomers(new ArrayList<>());
+        customer1Address.setRegistredCustomers(new ArrayList<>());
         customer1.setRegistredAddress(customer1Address);
         customer1.setActualAddress(customer1Address);
 
@@ -114,7 +116,16 @@ public class Service {
     @Test
     void createNewCustomerTest() throws Exception {
         Mockito.when(customerRep.save(customer1)).thenReturn(customer1);
-        Assertions.assertEquals(customer1.getId(), customerService.createNewCustomer(customer1).getId());
+        Assertions.assertEquals(customer1, customerService.createNewCustomer(customer1));
+    }
+
+    @Test
+    void changeAddressTest(){
+        int id = 1;
+        Mockito.when(customerRep.findById(id)).thenReturn(Optional.ofNullable(customer1));
+        Mockito.when(customerRep.save(customer1)).thenReturn(customer1);
+        Mockito.when(addressRep.findById(id)).thenReturn(Optional.ofNullable(customer1.getActualAddress()));
+        Assertions.assertEquals(customer1, customerService.changeAddress(id, customer1.getActualAddress()));
     }
 
 }
