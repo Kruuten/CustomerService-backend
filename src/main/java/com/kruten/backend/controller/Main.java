@@ -1,8 +1,8 @@
-package com.kruten.serviceWithSearch.controller;
+package com.kruten.backend.controller;
 
-import com.kruten.serviceWithSearch.entity.Address;
-import com.kruten.serviceWithSearch.entity.Customer;
-import com.kruten.serviceWithSearch.service.CustomerService;
+import com.kruten.backend.entity.Address;
+import com.kruten.backend.entity.Customer;
+import com.kruten.backend.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
 @RequestMapping("/")
-public class CustomServiceController {
+public class Main {
 
     @Autowired
     private CustomerService customerService;

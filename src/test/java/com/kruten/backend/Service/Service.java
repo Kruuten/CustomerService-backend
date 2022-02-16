@@ -1,10 +1,10 @@
-package com.kruten.serviceWithSearch.serviceTest;
+package com.kruten.backend.Service;
 
-import com.kruten.serviceWithSearch.entity.Address;
-import com.kruten.serviceWithSearch.entity.Customer;
-import com.kruten.serviceWithSearch.repository.AddressRep;
-import com.kruten.serviceWithSearch.repository.CustomerRep;
-import com.kruten.serviceWithSearch.service.CustomerService;
+import com.kruten.backend.entity.Address;
+import com.kruten.backend.entity.Customer;
+import com.kruten.backend.repository.AddressRep;
+import com.kruten.backend.repository.CustomerRep;
+import com.kruten.backend.service.CustomerService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
-public class serviceTest {
+public class Service {
     @MockBean
     private CustomerRep customerRep;
 
@@ -89,4 +89,8 @@ public class serviceTest {
         Assertions.assertEquals(customer1, customerService.getCustomerById(id));
     }
 
+    @Test
+    void createNewCustomerTest(){
+
+    }
 }
