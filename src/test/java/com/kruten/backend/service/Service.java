@@ -9,12 +9,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,6 +53,8 @@ public class Service {
         customer1Address.setStreet("RED");
         customer1Address.setHouse("2");
         customer1Address.setFlat("1");
+        customer1Address.setCreated(LocalDateTime.now());
+        customer1Address.setModified(LocalDateTime.now());
         customer1.setRegistredAddress(customer1Address);
         customer1.setActualAddress(customer1Address);
 
@@ -68,8 +72,8 @@ public class Service {
         customer2Address.setStreet("RED");
         customer2Address.setHouse("2");
         customer2Address.setFlat("1");
-        customer1.setRegistredAddress(customer1Address);
-        customer1.setActualAddress(customer2Address);
+        customer2.setRegistredAddress(customer1Address);
+        customer2.setActualAddress(customer2Address);
     }
 
 
@@ -106,4 +110,11 @@ public class Service {
                                  .get(0)
                                  .getLastName());
     }
+
+    @Test
+    void createNewCustomerTest() throws Exception {
+        Mockito.when(customerRep.save(customer1)).thenReturn(customer1);
+        Assertions.assertEquals(customer1.getId(), customerService.createNewCustomer(customer1).getId());
+    }
+
 }
