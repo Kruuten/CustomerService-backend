@@ -1,4 +1,4 @@
-package com.kruten.backend.serviceTest;
+package com.kruten.backend.Service;
 
 import com.kruten.backend.entity.Address;
 import com.kruten.backend.entity.Customer;
@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
-public class serviceTest {
+public class Service {
     @MockBean
     private CustomerRep customerRep;
 
