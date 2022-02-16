@@ -16,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,7 +90,20 @@ public class Service {
     }
 
     @Test
-    void createNewCustomerTest(){
+    void findByNameAndLastNameTest(){
+        String name = "Anton";
+        String lastName = "Kruten";
+        Mockito.when(customerRep.findByFirstNameAndLastName(name, lastName))
+                .thenReturn(Collections.singletonList(customer1));
 
+        Assertions.assertEquals(customer1.getFirstName()
+                , customerService.findByNameAndLastName(name, lastName)
+                                 .get(0)
+                                 .getFirstName());
+
+        Assertions.assertEquals(customer1.getLastName()
+                , customerService.findByNameAndLastName(name, lastName)
+                                 .get(0)
+                                 .getLastName());
     }
 }
