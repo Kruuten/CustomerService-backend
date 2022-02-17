@@ -2,7 +2,7 @@ package com.kruten.backend.service;
 
 import com.kruten.backend.entity.Address;
 import com.kruten.backend.entity.Customer;
-import com.kruten.backend.exception.CustomerAlreadyExistException;
+import com.kruten.backend.exception.CustomerAlreadyExistsException;
 import com.kruten.backend.repository.AddressRep;
 import com.kruten.backend.repository.CustomerRep;
 import org.junit.jupiter.api.Assertions;
@@ -114,26 +114,31 @@ public class Service {
     }
 
     @Test
-    void createNewCustomerTest() throws Exception {
+    void createNewCustomerSameAddressesTest() throws Exception {
         Mockito.when(customerRep.save(customer1)).thenReturn(customer1);
         Assertions.assertEquals(customer1, customerService.createNewCustomer(customer1));
     }
 
     @Test
+    void createNewCustomerDifferentAddressesTest() throws Exception {
+
+        Mockito.when(customerRep.save(customer2)).thenReturn(customer2);
+        Assertions.assertEquals(customer2, customerService.createNewCustomer(customer2));
+    }
+
+    @Test
     void createNewCustomerThrowExceptionTest(){
-        String exceptionMessage ="Customer already exist";
         Mockito.when(customerRep.findByFirstNameAndLastNameAndMiddleNameAndSexAndRegistredAddress_IdAndActualAddress_Id(
-                customer1.getFirstName()
+                  customer1.getFirstName()
                 , customer1.getLastName()
                 , customer1.getMiddleName()
                 , customer1.getSex()
                 , customer1.getRegistredAddress().getId()
-                , customer1.getActualAddress().getId())).thenReturn(customer1);
+                , customer1.getActualAddress().getId()))
+                .thenReturn(customer1);
 
-        Exception e = Assertions.assertThrows(CustomerAlreadyExistException.class
+        Assertions.assertThrows(CustomerAlreadyExistsException.class
                 , () -> customerService.createNewCustomer(customer1));
-        String actualMessage = e.getMessage();
-        Assertions.assertTrue(actualMessage.contains(exceptionMessage));
     }
 
     @Test
@@ -144,5 +149,13 @@ public class Service {
         Mockito.when(addressRep.findById(id)).thenReturn(Optional.ofNullable(customer1.getActualAddress()));
         Assertions.assertEquals(customer1, customerService.changeAddress(id, customer1.getActualAddress()));
     }
+
+    @Test
+    void changeAddressReturnNullTest(){
+        Mockito.when(customerRep.findById(1)).thenReturn(null);
+        Assertions.assertThrows(NullPointerException.class
+                , () -> customerService.changeAddress(1, customer1.getActualAddress()));
+    }
+
 
 }
