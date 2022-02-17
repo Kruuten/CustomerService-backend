@@ -2,6 +2,7 @@ package com.kruten.backend.service;
 
 import com.kruten.backend.entity.Address;
 import com.kruten.backend.entity.Customer;
+import com.kruten.backend.exception.CustomerAlreadyExistException;
 import com.kruten.backend.repository.AddressRep;
 import com.kruten.backend.repository.CustomerRep;
 import org.junit.jupiter.api.Assertions;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -117,6 +117,23 @@ public class Service {
     void createNewCustomerTest() throws Exception {
         Mockito.when(customerRep.save(customer1)).thenReturn(customer1);
         Assertions.assertEquals(customer1, customerService.createNewCustomer(customer1));
+    }
+
+    @Test
+    void createNewCustomerThrowExceptionTest(){
+        String exceptionMessage ="Customer already exist";
+        Mockito.when(customerRep.findByFirstNameAndLastNameAndMiddleNameAndSexAndRegistredAddress_IdAndActualAddress_Id(
+                customer1.getFirstName()
+                , customer1.getLastName()
+                , customer1.getMiddleName()
+                , customer1.getSex()
+                , customer1.getRegistredAddress().getId()
+                , customer1.getActualAddress().getId())).thenReturn(customer1);
+
+        Exception e = Assertions.assertThrows(CustomerAlreadyExistException.class
+                , () -> customerService.createNewCustomer(customer1));
+        String actualMessage = e.getMessage();
+        Assertions.assertTrue(actualMessage.contains(exceptionMessage));
     }
 
     @Test
