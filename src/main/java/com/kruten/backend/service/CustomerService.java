@@ -2,7 +2,7 @@ package com.kruten.backend.service;
 
 import com.kruten.backend.entity.Address;
 import com.kruten.backend.entity.Customer;
-import com.kruten.backend.exception.CustomerAlreadyExistException;
+import com.kruten.backend.exception.CustomerAlreadyExistsException;
 import com.kruten.backend.repository.AddressRep;
 import com.kruten.backend.repository.CustomerRep;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +66,7 @@ public class CustomerService {
                  customer.getActualAddress().getId());
 
         if (checkCustomer != null){
-            throw new CustomerAlreadyExistException("Customer already exist");
+            throw new CustomerAlreadyExistsException("Customer already exists");
         }
 
         return customerRep.save(customer);
