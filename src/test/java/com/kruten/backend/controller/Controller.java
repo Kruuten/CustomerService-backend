@@ -14,15 +14,16 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.io.UncheckedIOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -99,6 +100,21 @@ public class Controller {
     void getAllCustomersThrowExceptionTest() throws Exception {
         Mockito.when(customerService.getAllCustomers()).thenThrow(new RuntimeException());
         mockMvc.perform(get("/customers"))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void getCustomerByIdTest() throws Exception {
+        Mockito.when(customerService.getCustomerById(1)).thenReturn(customer1);
+        mockMvc.perform(get("/customers/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName", hasToString("Anton")));
+    }
+
+    @Test
+    void getCustomerByIdThrowExceptionTest() throws Exception {
+        Mockito.when(customerService.getCustomerById(1)).thenThrow(new RuntimeException());
+        mockMvc.perform(get("/customers/1"))
                 .andExpect(status().isInternalServerError());
     }
 }
