@@ -45,15 +45,6 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Address address, String firstName, String lastName, String middleName, String sex) {
-        this.actualAddress = address;
-        this.registredAddress = address;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.middleName = middleName;
-        this.sex = sex;
-    }
-
     public Customer(Address registredAddress, Address actualAddress,
                     String firstName, String lastName, String middleName, String sex) {
         this.registredAddress = registredAddress;
