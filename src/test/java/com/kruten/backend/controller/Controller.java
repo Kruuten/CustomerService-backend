@@ -1,29 +1,25 @@
 package com.kruten.backend.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kruten.backend.entity.Address;
 import com.kruten.backend.entity.Customer;
 import com.kruten.backend.service.CustomerService;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.io.UncheckedIOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,9 +30,6 @@ public class Controller {
 
     @MockBean
     private CustomerService customerService;
-
-    @InjectMocks
-    Main controller;
 
     private Customer customer1;
     private Customer customer2;
@@ -100,5 +93,38 @@ public class Controller {
         Mockito.when(customerService.getAllCustomers()).thenThrow(new RuntimeException());
         mockMvc.perform(get("/customers"))
                 .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void getCustomerByIdTest() throws Exception {
+        Mockito.when(customerService.getCustomerById(1)).thenReturn(customer1);
+        mockMvc.perform(get("/customers/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName", hasToString("Anton")));
+    }
+
+    @Test
+    void getCustomerByIdThrowExceptionTest() throws Exception {
+        Mockito.when(customerService.getCustomerById(1)).thenThrow(new RuntimeException());
+        mockMvc.perform(get("/customers/1"))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void addNewCustomerTest() throws Exception {
+        Mockito.when(customerService.createNewCustomer(customer1)).thenReturn(customer1);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.findAndRegisterModules();
+        String json = objectMapper.writeValueAsString(customer1);
+        mockMvc.perform(post("/customers")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void addNewCustomerThrowExceptionTest() throws Exception {
+        Mockito.when(customerService.createNewCustomer(customer1)).thenThrow(new RuntimeException());
+        mockMvc.perform(post("/customers")).andExpect(status().isInternalServerError());
     }
 }
