@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -117,14 +116,30 @@ public class Controller {
         objectMapper.findAndRegisterModules();
         String json = objectMapper.writeValueAsString(customer1);
         mockMvc.perform(post("/customers")
-                .content(json)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                        .content(json)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
     }
 
     @Test
     void addNewCustomerThrowExceptionTest() throws Exception {
         Mockito.when(customerService.createNewCustomer(customer1)).thenThrow(new RuntimeException());
-        mockMvc.perform(post("/customers")).andExpect(status().isInternalServerError());
+        mockMvc.perform(post("/customers")).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void changeAddressTest() throws Exception {
+        String json = new ObjectMapper().findAndRegisterModules().writeValueAsString(customer1.getActualAddress());
+        Mockito.when(customerService.changeAddress(1, customer1.getActualAddress())).thenReturn(customer1);
+        mockMvc.perform(put("/customers/1")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    void changeAddressThrowExceptionTest() throws Exception {
+        Mockito.when(customerService.changeAddress(1, customer1.getActualAddress())).thenThrow(new RuntimeException());
+        mockMvc.perform(put("/customers/1")).andExpect(status().isBadRequest());
     }
 }

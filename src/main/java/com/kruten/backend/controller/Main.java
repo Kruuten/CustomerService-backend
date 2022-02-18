@@ -52,20 +52,20 @@ public class Main {
     @PostMapping("/customers")
     public ResponseEntity<Customer> addNewCustomer(@Valid @RequestBody Customer customer){
         try {
-            return new ResponseEntity<>(customerService.createNewCustomer(customer), HttpStatus.OK);
+            return new ResponseEntity<>(customerService.createNewCustomer(customer), HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/customers/{id}")
     public ResponseEntity<Customer> changeAddress(@PathVariable int id, @Valid @RequestBody  Address address){
         try {
-            return new ResponseEntity<>(customerService.changeAddress(id, address), HttpStatus.OK);
+            return new ResponseEntity<>(customerService.changeAddress(id, address), HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }
