@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
@@ -141,5 +142,25 @@ public class Controller {
     void changeAddressThrowExceptionTest() throws Exception {
         Mockito.when(customerService.changeAddress(1, customer1.getActualAddress())).thenThrow(new RuntimeException());
         mockMvc.perform(put("/customers/1")).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void findByNameAndLastNameTest() throws Exception {
+        String firstName = "Anton";
+        String lastName = "Kruten";
+        Mockito.when(customerService.findByNameAndLastName(firstName, lastName)).thenReturn(Collections.singletonList(customer1));
+
+        mockMvc.perform(get("/customers/search?name=Anton&lastName=Kruten"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*].firstName", contains("Anton")))
+                .andExpect(jsonPath("$[*].lastName", contains("Kruten")));
+    }
+
+    @Test
+    void findByNameAndLastNameThrowExceptionTest() throws Exception {
+        String firstName = "Anton";
+        String lastName = "Kruten";
+        Mockito.when(customerService.findByNameAndLastName(firstName, lastName)).thenThrow(new RuntimeException());
+        mockMvc.perform(put("/customers/search?name=Anton&lastName=Kruten")).andExpect(status().isBadRequest());
     }
 }
