@@ -85,9 +85,7 @@ public class CustomerService {
 
         int actAddressId = customer.getActualAddress().getId();
 
-        Address changedAddress = new Address();
-        changedAddress.setCreated(LocalDateTime.now());
-        changedAddress = searchAddressInDB(address);
+        Address changedAddress = searchAddressInDB(address);
 
         customer.setActualAddress(changedAddress);
         customerRep.save(customer);
