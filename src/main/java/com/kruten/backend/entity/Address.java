@@ -176,6 +176,8 @@ public class Address {
         return Objects.equals(country, address.country) && Objects.equals(region, address.region) && Objects.equals(city, address.city) && Objects.equals(street, address.street) && Objects.equals(house, address.house) && Objects.equals(flat, address.flat);
     }
 
+
+
     @Override
     public int hashCode() {
         return Objects.hash(country, region, city, street, house, flat);

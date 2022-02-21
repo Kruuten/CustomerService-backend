@@ -3,6 +3,7 @@ package com.kruten.backend.service;
 import com.kruten.backend.entity.Address;
 import com.kruten.backend.entity.Customer;
 import com.kruten.backend.exception.CustomerAlreadyExistsException;
+import com.kruten.backend.exception.CustomerNotFoundException;
 import com.kruten.backend.repository.AddressRep;
 import com.kruten.backend.repository.CustomerRep;
 import org.junit.jupiter.api.Assertions;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,11 +26,11 @@ import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
-public class Service {
-    @MockBean
+public class ServiceTest {
+    @Mock
     private CustomerRep customerRep;
 
-    @MockBean
+    @Mock
     private AddressRep addressRep;
 
     @InjectMocks
@@ -142,7 +144,7 @@ public class Service {
     }
 
     @Test
-    void changeAddressTest(){
+    void changeAddressTest() throws CustomerNotFoundException {
         int id = 1;
         Mockito.when(customerRep.findById(id)).thenReturn(Optional.ofNullable(customer1));
         Mockito.when(customerRep.save(customer1)).thenReturn(customer1);
@@ -152,8 +154,8 @@ public class Service {
 
     @Test
     void changeAddressReturnNullTest(){
-        Mockito.when(customerRep.findById(1)).thenReturn(null);
-        Assertions.assertThrows(NullPointerException.class
+        Mockito.when(customerRep.findById(1)).thenThrow(CustomerNotFoundException.class);
+        Assertions.assertThrows(CustomerNotFoundException.class
                 , () -> customerService.changeAddress(1, customer1.getActualAddress()));
     }
 
