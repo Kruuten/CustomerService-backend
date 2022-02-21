@@ -51,10 +51,10 @@ public class CustomerService {
         Address commonAddress = searchAddressInDB(regAddress);
 
         if (regAddress.equals(actAddress)){
-            customer.setRegistredAddress(searchAddressInDB(commonAddress));
-            customer.setActualAddress(searchAddressInDB(commonAddress));
+            customer.setRegistredAddress(commonAddress);
+            customer.setActualAddress(commonAddress);
         } else {
-            customer.setRegistredAddress(searchAddressInDB(commonAddress));
+            customer.setRegistredAddress(commonAddress);
             customer.setActualAddress(searchAddressInDB(actAddress));
         }
 
