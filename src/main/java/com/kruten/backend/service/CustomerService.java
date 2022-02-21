@@ -3,6 +3,7 @@ package com.kruten.backend.service;
 import com.kruten.backend.entity.Address;
 import com.kruten.backend.entity.Customer;
 import com.kruten.backend.exception.CustomerAlreadyExistsException;
+import com.kruten.backend.exception.CustomerNotFoundException;
 import com.kruten.backend.repository.AddressRep;
 import com.kruten.backend.repository.CustomerRep;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,12 +74,14 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer changeAddress(int id, Address address){
+    public Customer changeAddress(int id, Address address) throws CustomerNotFoundException {
         Optional<Customer> optional = customerRep.findById(id);
         Customer customer;
         if (optional.isPresent()){
             customer = optional.get();
-        } else return null;
+        } else {
+            throw new CustomerNotFoundException("Customer not found");
+        }
 
         int actAddressId = customer.getActualAddress().getId();
 
