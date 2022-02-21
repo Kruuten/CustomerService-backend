@@ -1,10 +1,10 @@
 package com.kruten.backend;
 
-import com.kruten.backend.service.Service;
+import com.kruten.backend.service.ServiceTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(classes = {Service.class})
+@SpringBootTest(classes = {ServiceTest.class})
 class AppTest {
     @Test
     void contextLoads() {

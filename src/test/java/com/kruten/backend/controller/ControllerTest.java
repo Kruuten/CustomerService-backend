@@ -3,7 +3,10 @@ package com.kruten.backend.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kruten.backend.entity.Address;
 import com.kruten.backend.entity.Customer;
+import com.kruten.backend.exception.CustomerNotFoundException;
 import com.kruten.backend.service.CustomerService;
+import com.sun.jdi.InternalException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -15,16 +18,16 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(Main.class)
-public class Controller {
+public class ControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -117,14 +120,56 @@ public class Controller {
         objectMapper.findAndRegisterModules();
         String json = objectMapper.writeValueAsString(customer1);
         mockMvc.perform(post("/customers")
-                .content(json)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                        .content(json)
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isCreated());
     }
 
     @Test
     void addNewCustomerThrowExceptionTest() throws Exception {
-        Mockito.when(customerService.createNewCustomer(customer1)).thenThrow(new RuntimeException());
-        mockMvc.perform(post("/customers")).andExpect(status().isInternalServerError());
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.findAndRegisterModules();
+        String json = objectMapper.writeValueAsString(customer1);
+        Mockito.when(customerService.createNewCustomer(customer1)).thenThrow(new InternalException());
+        mockMvc.perform(post("/customers")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void changeAddressTest() throws Exception {
+        String json = new ObjectMapper().findAndRegisterModules().writeValueAsString(customer1.getActualAddress());
+        Mockito.when(customerService.changeAddress(1, customer1.getActualAddress())).thenReturn(customer1);
+        mockMvc.perform(put("/customers/1")
+                        .content(json)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    void changeAddressThrowExceptionTest() throws Exception {
+        Mockito.when(customerService.changeAddress(1, customer1.getActualAddress())).thenThrow(new CustomerNotFoundException());
+        mockMvc.perform(put("/customers/1")).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void findByNameAndLastNameTest() throws Exception {
+        String firstName = "Anton";
+        String lastName = "Kruten";
+        Mockito.when(customerService.findByNameAndLastName(firstName, lastName)).thenReturn(Collections.singletonList(customer1));
+
+        mockMvc.perform(get("/customers/search?name=Anton&lastName=Kruten"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*].firstName", contains("Anton")))
+                .andExpect(jsonPath("$[*].lastName", contains("Kruten")));
+    }
+
+    @Test
+    void findByNameAndLastNameThrowExceptionTest() throws Exception {
+        String firstName = "Anton";
+        String lastName = "Kruten";
+        Mockito.when(customerService.findByNameAndLastName(firstName, lastName)).thenThrow(new CustomerNotFoundException());
+        mockMvc.perform(put("/customers/search?name=Anton&lastName=Kruten")).andExpect(status().isBadRequest());
     }
 }
