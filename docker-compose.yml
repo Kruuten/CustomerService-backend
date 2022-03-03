@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   spring:
-    image: 'customer-service-backend'
+    image: 'customer-service-backend:latest'
     build:
       context:  .
     container_name: backend
@@ -10,30 +10,27 @@ services:
       - 8080:8080
     depends_on:
       - postgres
+    env_file:
+      - .env
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/anton
-      - SPRING_DATASOURCE_USERNAME=anton
-      - SPRING_DATASOURCE_PASSWORD=Rfhfvtkmyfz:0grf
+      - SPRING_DATASOURCE_URL=${DB_URL}
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
   postgres:
     image: 'postgres:12.9'
     container_name: postgres
+    env_file:
+      - .env
     environment:
-      - POSTGRESS_DB=anton
-      - POSTGRES_USER=anton
-      - POSTGRES_PASSWORD=Rfhfvtkmyfz:0grf
-
+      - POSTGRESS_DB=${DB_USERNAME}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
 
   react-service:
-    image: 'customer-service-frontend'
+    image: kruten/frontend
     container_name: frontend
-    build:
-      context: ./frontend/customer-service-frontend
-      dockerfile: Dockerfile
-    volumes:
-      - /frontend/customer-service-frontend
-      - /frontend/customer-service-frontend/node_modules
     ports:
       - 3000:3000
     environment:
