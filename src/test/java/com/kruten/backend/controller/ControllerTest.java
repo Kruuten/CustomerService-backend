@@ -125,17 +125,17 @@ public class ControllerTest {
                         .andExpect(status().isCreated());
     }
 
-    @Test
-    void addNewCustomerThrowExceptionTest() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.findAndRegisterModules();
-        String json = objectMapper.writeValueAsString(customer1);
-        Mockito.when(customerService.createNewCustomer(customer1)).thenThrow(new InternalException());
-        mockMvc.perform(post("/customers")
-                .content(json)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
-    }
+//    @Test
+//    void addNewCustomerThrowExceptionTest() throws Exception {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.findAndRegisterModules();
+//        String json = objectMapper.writeValueAsString(customer1);
+//        Mockito.when(customerService.createNewCustomer(customer1)).thenThrow(new InternalException());
+//        mockMvc.perform(post("/customers")
+//                .content(json)
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isBadRequest());
+//    }
 
     @Test
     void changeAddressTest() throws Exception {
