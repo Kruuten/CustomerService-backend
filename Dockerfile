@@ -1,6 +1,6 @@
-FROM openjdk:17.0.2
+FROM gradle:7.4-jdk-alpine
 COPY . /usr/src/app
 WORKDIR /usr/src/app
-RUN ./gradlew build
+RUN gradle build
 ENTRYPOINT ["java","-jar","build/libs/App-0.0.1-SNAPSHOT.jar"]
 
