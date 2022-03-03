@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  spring:
+    image: 'customer-service-backend:latest'
+    build:
+      context:  .
+    container_name: backend
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    environment:
+      - SPRING_DATASOURCE_URL=${DB_URL}
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+
+  postgres:
+    image: 'postgres:12.9'
+    container_name: postgres
+    env_file:
+      - .env
+    environment:
+      - POSTGRESS_DB=${DB_USERNAME}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - ${DB_PORT:-5432}:5432
